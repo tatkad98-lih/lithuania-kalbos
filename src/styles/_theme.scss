@@ -1,0 +1,37 @@
+// Токены темы. Светлая — дефолт (:root), тёмная — [data-theme="dark"].
+// Переключение — сменой атрибута на <html>, без перезагрузки.
+:root {
+  color-scheme: light;
+  --primary: #006a44;
+  --primary-light: #e6f2ec;
+  --secondary: #c1272d;
+  --accent: #fdb913;
+  --text: #1a1d21;
+  --text-muted: #6b7280;
+  --bg: #fafaf8;
+  --card-bg: #ffffff;
+  --border: #e5e7eb;
+  --shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  --tooltip-bg: #1a1d21;
+  --tooltip-text: #ffffff;
+  --tooltip-link: #ffe3e0;
+  --danger-bg: #fdecec;
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+  --primary: #3aa76d;
+  --primary-light: rgba(58, 167, 109, 0.16);
+  --secondary: #e57373;
+  --accent: #fdb913;
+  --text: #e8eaed;
+  --text-muted: #9aa0a6;
+  --bg: #16191d;
+  --card-bg: #1e2226;
+  --border: #2e3439;
+  --shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+  --tooltip-bg: #f0f2f4;
+  --tooltip-text: #16191d;
+  --tooltip-link: #006a44;
+  --danger-bg: #3a2323;
+}

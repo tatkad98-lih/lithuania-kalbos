@@ -3,9 +3,11 @@ import { Header } from './components/Header';
 import { TopicTabs } from './components/TopicTabs';
 import { MatchGame } from './components/MatchGame';
 import { BottomNav } from './components/BottomNav';
+import { useTheme } from './hooks/useTheme.js';
 
 function App() {
   const [view, setView] = useState('tekstai');
+  const [theme, toggleTheme] = useTheme();
 
   const navigate = (v) => {
     setView(v);
@@ -14,7 +16,7 @@ function App() {
 
   return (
     <>
-      <Header view={view} onNavigate={navigate} />
+      <Header view={view} onNavigate={navigate} theme={theme} onToggleTheme={toggleTheme} />
       <main>{view === 'tekstai' ? <TopicTabs /> : <MatchGame />}</main>
       <BottomNav view={view} onNavigate={navigate} />
     </>

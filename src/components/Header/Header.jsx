@@ -1,8 +1,8 @@
-import { BookOpenText, Languages } from 'lucide-react';
+import { BookOpenText, Languages, Sun, Moon } from 'lucide-react';
 import { useHideOnScroll } from '../../hooks/useHideOnScroll.js';
 import './styles.scss';
 
-export function Header({ view, onNavigate }) {
+export function Header({ view, onNavigate, theme, onToggleTheme }) {
   const hidden = useHideOnScroll();
 
   const go = (e, v) => {
@@ -43,6 +43,16 @@ export function Header({ view, onNavigate }) {
             Грамматика
           </a>
         </nav>
+
+        <button
+          type="button"
+          onClick={onToggleTheme}
+          className="header__theme"
+          title={theme === 'dark' ? 'Светлая тема' : 'Тёмная тема'}
+          aria-label={theme === 'dark' ? 'Светлая тема' : 'Тёмная тема'}
+        >
+          {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+        </button>
       </div>
       <div className="header__flag">
         <span className="header__flag-yellow" />
