@@ -1,10 +1,11 @@
-import { BookOpenText, BookMarked, Layers } from 'lucide-react';
+import { BookOpenText, BookMarked, Layers, Keyboard } from 'lucide-react';
 import './styles.scss';
 
 const items = [
   { id: 'tekstai', view: 'tekstai', icon: BookOpenText, label: 'Тексты' },
   { id: 'zodziai', view: 'zodziai', icon: BookMarked, label: 'Слова' },
   { id: 'korteles', view: 'korteles', icon: Layers, label: 'Карточки' },
+  { id: 'rasyba', view: 'rasyba', icon: Keyboard, label: 'Rašyba' },
 ];
 
 export function BottomNav({ view, onNavigate }) {

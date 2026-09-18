@@ -1,4 +1,4 @@
-import { BookOpenText, Languages, Layers, Sun, Moon } from 'lucide-react';
+import { BookOpenText, Languages, Layers, Keyboard, Sun, Moon } from 'lucide-react';
 import { useHideOnScroll } from '../../hooks/useHideOnScroll.js';
 import './styles.scss';
 
@@ -46,6 +46,14 @@ export function Header({ view, onNavigate, theme, onToggleTheme }) {
           >
             <Layers size={16} />
             Карточки
+          </a>
+          <a
+            href="#rasyba"
+            onClick={(e) => go(e, 'rasyba')}
+            className={`header__link ${view === 'rasyba' ? 'header__link--active' : ''}`}
+          >
+            <Keyboard size={16} />
+            Rašyba
           </a>
         </nav>
 
