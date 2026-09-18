@@ -1,6 +1,9 @@
 @use '../../styles/variables' as *;
 
 .reader {
+  max-width: 900px;
+  margin: 0 auto;
+
   &__hint {
     display: flex;
     align-items: center;
@@ -50,32 +53,35 @@
   }
 
   &__body {
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-  }
-
-  &__para {
     background: #fff;
     border: 1px solid $border;
     border-radius: $radius;
-    padding: 18px 20px;
+    padding: 24px;
   }
 
   &__lt {
     margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1px 2px;
-    align-items: flex-end;
+    font-size: 17px;
+    line-height: 2.2;
+    text-align: left;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 
-  &__ru {
-    margin: 14px 0 0;
-    padding-top: 12px;
+  &__full-ru {
+    margin-top: 24px;
+    padding-top: 16px;
     border-top: 1px dashed $border;
-    color: $text-muted;
-    font-size: 15px;
-    line-height: 1.6;
+
+    p {
+      margin: 0 0 12px;
+      color: $text-muted;
+      font-size: 15px;
+      line-height: 1.7;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
   }
 }
