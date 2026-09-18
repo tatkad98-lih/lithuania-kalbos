@@ -1,4 +1,3 @@
-// Список тем из Turinys (содержание) учебника
 export const topics = [
   { id: 'apie-mane', nr: 1, lt: 'Apie mane, mano šeima', ru: 'Обо мне, моя семья' },
   { id: 'mano-namai', nr: 2, lt: 'Mano namai', ru: 'Мой дом' },

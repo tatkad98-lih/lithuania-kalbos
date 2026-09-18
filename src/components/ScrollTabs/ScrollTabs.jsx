@@ -1,7 +1,5 @@
 import './styles.scss';
 
-// Горизонтальная скролл-лента вкладок-пилюль, как список тем в Текстах.
-// items: [{ id, label }], activeId, onSelect(id)
 export function ScrollTabs({ items, activeId, onSelect }) {
   return (
     <div className="scrolltabs">

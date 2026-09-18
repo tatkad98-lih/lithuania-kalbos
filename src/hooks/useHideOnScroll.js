@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 
-// Прячет элемент при скролле вниз, показывает при скролле вверх.
-// Работает только на мобилке (max-width: 640px), на десктопе всегда false.
+// Mobile only: hides on scroll down, shows on scroll up.
 export function useHideOnScroll(threshold = 80) {
   const [hidden, setHidden] = useState(false);
 

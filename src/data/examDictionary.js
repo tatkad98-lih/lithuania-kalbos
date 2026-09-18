@@ -1,4 +1,4 @@
-// Словарь из egzaminu_temos_a2.html: exact (точные формы) + stems (основы).
+// Generated from egzaminu_temos_a2.html: exact forms + stems.
 export const exact = {
   "ir": "и",
   "su": "с",

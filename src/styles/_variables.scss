@@ -1,9 +1,8 @@
-// Палитра ссылается на CSS-переменные из _theme.scss,
-// чтобы тема переключалась сменой data-theme на <html> без перезагрузки.
-$primary: var(--primary); // зелёный флага Литвы
+// Palette proxies CSS vars from _theme.scss for runtime switching.
+$primary: var(--primary);
 $primary-light: var(--primary-light);
-$secondary: var(--secondary); // красный флага Литвы
-$accent: var(--accent); // жёлтый флага Литвы
+$secondary: var(--secondary);
+$accent: var(--accent);
 $text: var(--text);
 $text-muted: var(--text-muted);
 $bg: var(--bg);

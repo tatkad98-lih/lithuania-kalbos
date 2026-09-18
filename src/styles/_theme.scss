@@ -1,5 +1,4 @@
-// Токены темы. Светлая — дефолт (:root), тёмная — [data-theme="dark"].
-// Переключение — сменой атрибута на <html>, без перезагрузки.
+// Theme tokens. Light is default (:root); toggle via data-theme on <html>.
 :root {
   color-scheme: light;
   --primary: #006a44;

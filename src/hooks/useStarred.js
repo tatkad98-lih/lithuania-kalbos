@@ -17,7 +17,6 @@ function load() {
   }
 }
 
-// Звёздочки живут только в localStorage, переживают перезагрузку.
 export function useStarred() {
   const [keys, setKeys] = useState(load);
 
@@ -29,7 +28,6 @@ export function useStarred() {
       try {
         localStorage.setItem(KEY, JSON.stringify(next));
       } catch {
-        // приватный режим — просто не сохраняем
       }
       return next;
     });

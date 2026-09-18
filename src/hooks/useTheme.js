@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 
 const KEY = 'theme';
 
-// Дефолт — светлая. Тёмная только если сохранена в localStorage.
-// Переключение — сменой data-theme на <html>, без перезагрузки.
 export function useTheme() {
   const [theme, setTheme] = useState(() => {
     try {
@@ -18,7 +16,6 @@ export function useTheme() {
     try {
       localStorage.setItem(KEY, theme);
     } catch {
-      // приватный режим — просто не сохраняем
     }
   }, [theme]);
 

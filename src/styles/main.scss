@@ -21,7 +21,7 @@ body {
 
 @media (max-width: 640px) {
   #root {
-    // место под fixed нижнее меню + safe-area
+    // room for the fixed bottom nav + safe-area
     padding-bottom: calc(64px + env(safe-area-inset-bottom));
   }
 }

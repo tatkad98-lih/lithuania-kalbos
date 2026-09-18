@@ -1,6 +1,4 @@
-// Тексты экзамена A2 — перенесено из egzaminu_temos_a2.html
-// Источник правды: HTML-файл. Каждый абзац — литовский текст.
-// Русских переводов абзацев в источнике нет — только пословный словарь.
+// Exam A2 texts from egzaminu_temos_a2.html. Do not edit by hand.
 export const examTextsById = {
   'apie-mane': [
     { id: 'p1', lt: "Mano vardas Polina Sokol, man keturiasdešimt vieneri metai. Mūsų šeima atvyko gyventi ir dirbti į Lietuvą prieš ketverius metus. Aš gimiau ir užaugau Baltarusijos Respublikos sostinėje – Minske. Dabar gyvenu Vilniuje. Mano gimtoji kalba – rusų. Aš laisvai kalbu baltarusiškai ir angliškai. Mokiausi taip pat vokiečių kalbos, bet šiuo metu jos nesinaudoju. Pernai pradėjau mokytis lietuvių kalbos. Man labai svarbu mokėti valstybinę kalbą tos šalies, kurioje gyvenu. Lietuvių kalba yra melodinga. Man patinka mokytis lietuvių kalbos." },

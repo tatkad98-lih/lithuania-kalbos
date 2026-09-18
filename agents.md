@@ -13,3 +13,7 @@
 ## General
 - Ask before taking any action that modifies repository state
 - Ask before opening any external tools (browser, etc.)
+
+## Code Comments
+- NEVER write code comments in Russian — English only (UI strings stay in Russian)
+- Minimize comments: no restating obvious code, keep only non-obvious why-explanations, one line max

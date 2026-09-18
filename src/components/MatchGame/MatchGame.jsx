@@ -19,7 +19,6 @@ function shuffled(arr) {
 function takeRound(pool, n) {
   const s = shuffled(pool);
   let left = s.slice(0, Math.min(n, s.length));
-  // Короткие хвосты добиваем словами из пула
   if (left.length < n && pool.length > left.length) {
     const rest = shuffled(pool.filter((w) => !left.includes(w)));
     left = left.concat(rest.slice(0, n - left.length));
@@ -27,7 +26,6 @@ function takeRound(pool, n) {
   return left;
 }
 
-// Делит перемешанный пул категории на чанки по 20 без повторов внутри прохода
 function dealDeck(pool) {
   const deck = shuffled(pool);
   const chunks = [];
@@ -84,7 +82,6 @@ export function MatchGame() {
       const idx = s.chunkIdx + 1;
       setS((prev) => freshState(prev.cat, prev.chunks, idx));
     } else {
-      // Проход по категории закончен — тасуем заново
       setS(freshState(s.cat, dealDeck(wordsByCategory[s.cat]), 0));
     }
   };

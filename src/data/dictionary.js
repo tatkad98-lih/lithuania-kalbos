@@ -1,5 +1,4 @@
-// Перевод слов для экзамена A2 — данные из egzaminu_temos_a2.html.
-// exact: точные формы, stems: основы (снимаем окончания prefix-match).
+// A2 word translations from egzaminu_temos_a2.html: exact forms + stems.
 import { exact as EXACT, stems as STEMS } from './examDictionary.js';
 
 const STEM_KEYS = Object.keys(STEMS)

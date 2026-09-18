@@ -1,5 +1,4 @@
-// Словарь для вкладки «Слова» — сгенерировано из zodynas_a8s.json.
-// Не редактировать вручную: при обновлении JSON перегенерировать.
+// Generated from zodynas_a8s.json. Do not edit by hand.
 export const wordCategories = [
   { id: "apranga", titleLt: "Apranga ir aksesuarai", titleRu: "Одежда и аксессуары", icon: "👗", count: 89 },
   { id: "maistas", titleLt: "Maistas ir virtuvė", titleRu: "Еда и кухня", icon: "🍽️", count: 136 },

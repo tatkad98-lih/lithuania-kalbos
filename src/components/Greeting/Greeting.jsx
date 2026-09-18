@@ -39,7 +39,6 @@ export function Greeting() {
         </div>
 
         <div className="greeting__actions">
-          {/* Кнопка из библиотеки Base UI */}
           <Button
             className="greeting__button greeting__button--primary"
             onClick={() => setLikes((v) => v + 1)}
