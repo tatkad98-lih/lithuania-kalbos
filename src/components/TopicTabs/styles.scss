@@ -51,11 +51,19 @@
     cursor: pointer;
     white-space: nowrap;
     color: $text-muted;
+    transition: all 0.15s ease;
 
-    &[data-selected] {
+    &:hover {
+      background: $primary-light;
+      border-color: $primary;
+      color: $primary;
+    }
+
+    &[data-active] {
       background: $primary;
       border-color: $primary;
       color: #fff;
+      box-shadow: 0 4px 14px rgba(0, 106, 68, 0.3);
     }
   }
 

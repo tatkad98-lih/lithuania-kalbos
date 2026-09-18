@@ -22,12 +22,10 @@
 
   &--active {
     background: $primary-light;
-    outline: 1.5px solid $primary;
     z-index: 10;
 
     .word__lt {
       color: $primary;
-      font-weight: 700;
     }
   }
 

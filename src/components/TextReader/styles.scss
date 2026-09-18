@@ -17,11 +17,50 @@
     margin-bottom: 14px;
   }
 
-  &__controls {
+  &__body {
+    background: #fff;
+    border: 1px solid $border;
+    border-radius: $radius;
+    padding: 24px;
+    padding-bottom: 100px; // space for mobile tabs
+  }
+
+  &__lt {
+    margin: 0;
+    font-size: 17px;
+    line-height: 2.2;
+    text-align: left;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  &__full-ru {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px dashed $border;
+
+    p {
+      margin: 0 0 12px;
+      color: $text-muted;
+      font-size: 15px;
+      line-height: 1.7;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  // Desktop controls - hidden on mobile
+  &__desktop-controls {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
     margin-bottom: 18px;
+
+    @media (max-width: 640px) {
+      display: none;
+    }
   }
 
   &__btn {
@@ -52,35 +91,59 @@
     }
   }
 
-  &__body {
+  // Mobile tabs at bottom
+  &__mobile-tabs {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 900px;
+    margin: 0 auto;
     background: #fff;
-    border: 1px solid $border;
-    border-radius: $radius;
-    padding: 24px;
+    border-top: 1px solid $border;
+    border-radius: $radius $radius 0 0;
+    padding: 8px 12px;
+    z-index: 100;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+
+    @media (max-width: 640px) {
+      display: flex;
+      justify-content: space-around;
+    }
   }
 
-  &__lt {
-    margin: 0;
-    font-size: 17px;
-    line-height: 2.2;
-    text-align: left;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-  }
+  &__mobile-tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    background: transparent;
+    border: 0;
+    border-radius: 12px;
+    padding: 8px 12px;
+    cursor: pointer;
+    color: $text-muted;
+    font-size: 11px;
+    font-weight: 600;
+    flex: 1;
+    transition: all 0.15s ease;
 
-  &__full-ru {
-    margin-top: 24px;
-    padding-top: 16px;
-    border-top: 1px dashed $border;
+    svg {
+      font-size: 20px;
+    }
 
-    p {
-      margin: 0 0 12px;
-      color: $text-muted;
-      font-size: 15px;
-      line-height: 1.7;
+    &:hover {
+      background: $primary-light;
+      color: $primary;
+    }
 
-      &:last-child {
-        margin-bottom: 0;
+    &--active {
+      color: $primary;
+      background: $primary-light;
+
+      svg {
+        color: $primary;
       }
     }
   }

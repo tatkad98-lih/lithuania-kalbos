@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Button } from '@base-ui/react/button';
-import { Languages, Eye, EyeOff, MousePointerClick } from 'lucide-react';
+import { Languages, Eye, EyeOff, MousePointerClick, BookOpen } from 'lucide-react';
 import { Word } from '../Word';
 import { translateWord } from '../../data/dictionary.js';
 import './styles.scss';
@@ -9,7 +9,6 @@ function tokenize(lt) {
   return lt.split(/\s+/).filter(Boolean);
 }
 
-// Объединяем все абзацы в один текст
 const fullText = `Mano vardas Polina Sokol, man keturiasdešimt vieneri metai. Mūsų šeima atvyko gyventi į Lietuvą prieš ketverius metus. Aš gimiau ir užaugau Baltarusijos Respublikos sostinėje Minske. Dabar gyvenu Vilniuje. Mano gimtoji kalba – rusų. Aš laisvai kalbu baltarusiškai ir angliškai. Mokiausi taip pat vokiečių kalbą, bet šiuo metu ją nesinaudoju. Pernai pradėjau mokytis lietuvių kalbos. Man labai svarbu mokėti valstybinę kalbą tos šalies, kurioje gyvenu. Lietuvių kalba yra melodinga. Man patinka mokytis lietuvių kalbos.
 
 Mano šeima nėra didelė. Turiu vyrą Sergejų, dukrą Aną ir sūnų Piotrą. Mes visi gyvename moderniame bute gražiame Pašilaičių rajone. Tai jaukus rajonas su parkais ir žaidimų aikštelėmis, jame patogu auginti vaikus. Žiemą mėgstame leisti su rogutėmis nuo kalnelio šalia mūsų namų.
@@ -29,6 +28,7 @@ const fullRu = `Меня зовут Полина Сокол, мне сорок �
 export function TextReader() {
   const [activeKey, setActiveKey] = useState(null);
   const [showFullRu, setShowFullRu] = useState(false);
+  const [mobileTab, setMobileTab] = useState('text'); // 'text' | 'translation' | 'actions'
   const tokens = tokenize(fullText);
   const wordRefs = useRef([]);
 
@@ -38,25 +38,17 @@ export function TextReader() {
 
   const clearActive = () => setActiveKey(null);
 
+  const tabs = [
+    { id: 'text', icon: BookOpen, label: 'Текст' },
+    { id: 'translation', icon: showFullRu ? EyeOff : Eye, label: 'Перевод' },
+    { id: 'actions', icon: Languages, label: 'Действия' },
+  ];
+
   return (
     <div className="reader">
       <div className="reader__hint">
         <MousePointerClick size={16} />
         <span>Нажми на любое литовское слово — над ним появится перевод</span>
-      </div>
-
-      <div className="reader__controls">
-        <Button
-          className="reader__btn reader__btn--primary"
-          onClick={() => setShowFullRu((v) => !v)}
-        >
-          {showFullRu ? <EyeOff size={15} /> : <Eye size={15} />}
-          {showFullRu ? 'Скрыть полный перевод' : 'Показать полный перевод'}
-        </Button>
-        <Button className="reader__btn" onClick={clearActive}>
-          <Languages size={15} />
-          Сбросить
-        </Button>
       </div>
 
       <div className="reader__body">
@@ -83,6 +75,45 @@ export function TextReader() {
             ))}
           </div>
         )}
+      </div>
+
+      <div className="reader__mobile-tabs">
+        {tabs.map((tab) => {
+          const Icon = tab.icon;
+          const isActive = mobileTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              type="button"
+              className={`reader__mobile-tab ${isActive ? 'reader__mobile-tab--active' : ''}`}
+              onClick={() => {
+                if (tab.id === 'translation') {
+                  setShowFullRu((v) => !v);
+                } else if (tab.id === 'actions') {
+                  clearActive();
+                }
+                setMobileTab(tab.id);
+              }}
+            >
+              <Icon size={20} />
+              <span>{tab.label}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="reader__desktop-controls">
+        <Button
+          className="reader__btn reader__btn--primary"
+          onClick={() => setShowFullRu((v) => !v)}
+        >
+          {showFullRu ? <EyeOff size={15} /> : <Eye size={15} />}
+          {showFullRu ? 'Скрыть полный перевод' : 'Показать полный перевод'}
+        </Button>
+        <Button className="reader__btn" onClick={clearActive}>
+          <Languages size={15} />
+          Сбросить
+        </Button>
       </div>
     </div>
   );
