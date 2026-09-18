@@ -5,7 +5,12 @@
   border-bottom: 1px solid $border;
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 50;
+  transition: transform 0.25s ease;
+
+  &--hidden {
+    transform: translateY(-100%);
+  }
 
   &__inner {
     max-width: 960px;
@@ -95,6 +100,34 @@
     }
     &-red {
       background: $secondary;
+    }
+  }
+
+  @media (max-width: 640px) {
+    &__inner {
+      padding: 10px 16px;
+    }
+
+    &__nav {
+      display: none;
+    }
+
+    &__logo {
+      gap: 10px;
+
+      &-icon {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+      }
+
+      &-text {
+        font-size: 17px;
+
+        small {
+          display: none;
+        }
+      }
     }
   }
 }

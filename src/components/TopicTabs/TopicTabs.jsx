@@ -1,7 +1,7 @@
 import { Tabs } from '@base-ui/react/tabs';
-import { BookOpenText, Clock } from 'lucide-react';
+import { BookOpenText } from 'lucide-react';
 import { topics } from '../../data/topics.js';
-import { apieManeParagraphs } from '../../data/textApieMane.js';
+import { examTextsById } from '../../data/examTexts.js';
 import { TextReader } from '../TextReader';
 import './styles.scss';
 
@@ -16,7 +16,7 @@ export function TopicTabs() {
           Tekstai — Тексты
         </h2>
         <p className="topics__sub">
-          Первая вкладка: читаем по-литовски. Кликай на слова, чтобы увидеть перевод.
+          Читаем по-литовски. Кликай на слова, чтобы увидеть перевод.
         </p>
       </div>
 
@@ -29,25 +29,12 @@ export function TopicTabs() {
           ))}
         </Tabs.List>
 
-        <Tabs.Panel value={first.id} className="topics__panel">
-          <h3 className="topics__topic-title">
-            {first.lt} <span>— {first.ru}</span>
-          </h3>
-          <TextReader paragraphs={apieManeParagraphs} />
-        </Tabs.Panel>
-
-        {topics.slice(1).map((t) => (
+        {topics.map((t) => (
           <Tabs.Panel key={t.id} value={t.id} className="topics__panel">
-            <div className="topics__empty">
-              <Clock size={18} />
-              <p>
-                <strong>
-                  {t.nr}. {t.lt} — {t.ru}
-                </strong>
-                <br />
-                Текст ещё переносим из учебника. Сначала разберём первую тему до конца.
-              </p>
-            </div>
+            <h3 className="topics__topic-title">
+              {t.lt} <span>— {t.ru}</span>
+            </h3>
+            <TextReader paragraphs={examTextsById[t.id] || []} />
           </Tabs.Panel>
         ))}
       </Tabs.Root>

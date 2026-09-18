@@ -14,5 +14,5 @@ export const topics = [
   { id: 'jura', nr: 12, lt: 'Važiuojame prie jūros, į parką, prie ežero', ru: 'Едем на море, в парк, к озеру' },
   { id: 'sveikata', nr: 13, lt: 'Sveikata ir higiena', ru: 'Здоровье и гигиена' },
   { id: 'ziema', nr: 14, lt: 'Poilsis žiemą', ru: 'Зимние каникулы' },
-  { id: 'sventes', nr: 15, lt: 'Valstybinės Lietuvos šventės', ru: 'Государственные праздники Литвы' },
+  { id: 'sventes', nr: 15, lt: 'Valstybinės Lietuvos šventės', ru: 'Государственные литовские праздники' },
 ];

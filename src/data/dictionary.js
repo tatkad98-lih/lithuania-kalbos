@@ -1,151 +1,32 @@
-// Полный словарь для темы "Apie mane, mano šeima" (все слова из текста)
-export const dictionary = {
-  // абзац 1
-  polina: 'Полина (имя)',
-  sokol: 'Сокол (фамилия)',
-  mano: 'мой / меня',
-  vardas: 'имя',
-  man: 'мне',
-  keturiasdešimt: 'сорок',
-  vieneri: 'один (год)',
-  metai: 'годы / лета',
-  metų: 'лет / года',
-  mūsų: 'наша',
-  šeima: 'семья',
-  atvyko: 'приехала',
-  gyventi: 'жить',
-  į: 'в / к',
-  lietuvą: 'Литву',
-  Lietuva: 'Литва',
-  lietuva: 'Литва',
-  prieš: 'назад / перед',
-  ketverius: 'четыре (года)',
-  metus: 'года / лет',
-  aš: 'я',
-  gimiau: 'родилась',
-  ir: 'и',
-  užaugau: 'выросла',
-  baltarusijos: 'Беларуси',
-  respublikos: 'республики',
-  sostinėje: 'в столице',
-  minske: 'в Минске',
-  dabar: 'сейчас',
-  gyvenu: 'живу',
-  vilniuje: 'в Вильнюсе',
-  gimtoji: 'родной',
-  kalba: 'язык',
-  kalbos: 'языка / языки',
-  kalbą: 'язык (вин.)',
-  rusų: 'русский',
-  laisvai: 'свободно',
-  kalbu: 'говорю',
-  baltarusiškai: 'по-белорусски',
-  angliškai: 'по-английски',
-  mokiausi: 'училась',
-  taip: 'так / также / да',
-  pat: 'тоже',
-  vokiečių: 'немецкий',
-  bet: 'но',
-  šiuo: 'этим',
-  metu: 'временем / годом',
-  ją: 'её',
-  nesinaudoju: 'не пользуюсь',
-  pernai: 'в прошлом году',
-  pradėjau: 'начала',
-  mokytis: 'учиться',
-  lietuvių: 'литовский / литовцев',
-  labai: 'очень',
-  svarbu: 'важно',
-  mokėti: 'знать / уметь / платить',
-  valstybinę: 'государственный',
-  tos: 'той',
-  šalies: 'страны',
-  kurioje: 'в которой',
-  yra: 'есть / является',
-  melodinga: 'мелодичная',
-  patinka: 'нравится',
+// Перевод слов для экзамена A2 — данные из egzaminu_temos_a2.html.
+// exact: точные формы, stems: основы (снимаем окончания prefix-match).
+import { exact as EXACT, stems as STEMS } from './examDictionary.js';
 
-  // абзац 2
-  nėra: 'нет / не является',
-  didelė: 'большая',
-  turiu: 'у меня есть / имею',
-  vyrą: 'мужа',
-  sergejų: 'Сергей (имя)',
-  dukrą: 'дочь (вин.)',
-  aną: 'Анна (имя)',
-  sūnų: 'сына',
-  piotrą: 'Пётр (имя)',
-  mes: 'мы',
-  visi: 'все',
-  gyvename: 'живём',
-  moderniame: 'современном',
-  bute: 'квартире',
-  gražiame: 'красивом',
-  pašilaičių: 'Пашилайчай (район Вильнюса)',
-  rajone: 'в районе',
-  tai: 'это',
-  jaukus: 'уютный / милый',
-  rajonas: 'район',
-  su: 'с / со',
-  parkais: 'парками',
-  žaidimų: 'игровых',
-  aikštelėmis: 'площадками',
-  jame: 'в нём',
-  patogu: 'удобно',
-  auginti: 'воспитывать / растить',
-  vaikus: 'детей',
-  žiemą: 'зимой',
-  mėgstame: 'любим',
-  leisti: 'кататься',
-  rogutėmis: 'на саночках / на санках',
-  nuo: 'с / от',
-  kalnelio: 'холмика',
-  šalia: 'возле / рядом',
-  namų: 'дома',
+const STEM_KEYS = Object.keys(STEMS)
+  .filter((k) => !k.includes(' '))
+  .sort((a, b) => b.length - a.length);
 
-  // абзац 3
-  vyras: 'муж',
-  dirba: 'работает',
-  programuotoju: 'программистом',
-  įmonėje: 'в компании',
-  jam: 'ему',
-  jo: 'его',
-  darbas: 'работа',
-  jis: 'он',
-  tarptautinėje: 'в международной',
-  komandoje: 'команде',
-  bendrauja: 'общается',
-  mokosi: 'учится',
-  kalbėti: 'говорить',
-  lietuviškai: 'по-литовски',
-
-  // абзац 4
-  vaikai: 'дети',
-  mokykloje: 'в школе',
-  jie: 'они',
-  mėgsta: 'любят / нравится',
-  plaukioti: 'плавать',
-  čiuožinėti: 'кататься на коньках',
-  pačiūžomis: 'коньками',
-  o: 'а / а вот',
-  vasarą: 'летом',
-  jodinėti: 'ездить верхом / кататься на лошадях',
-  žirgais: 'лошадями',
-  groja: 'играет (на инструменте)',
-  pianinu: 'на пианино',
-  žaidžia: 'играет (в игру)',
-  dukra: 'дочь',
-  siuvinėti: 'вышивать',
-  velti: 'валять (из шерсти)',
-  iš: 'из / из-под',
-  vilnos: 'шерсти',
-  sūnus: 'сын',
-  konstruoti: 'конструировать / строить',
-  lego: 'лего',
-};
+function lookupWord(raw) {
+  const w = raw.toLowerCase();
+  if (Object.prototype.hasOwnProperty.call(EXACT, w)) return EXACT[w];
+  if (Object.prototype.hasOwnProperty.call(STEMS, w)) return STEMS[w];
+  for (const stem of STEM_KEYS) {
+    if (stem.length >= 3 && w.startsWith(stem)) return STEMS[stem];
+  }
+  return null;
+}
 
 export function translateWord(ltWord) {
   if (!ltWord) return null;
   const clean = ltWord.toLowerCase().replace(/[.,!?;:()«»"„“—–-]+/g, '');
-  return dictionary[clean] || null;
+  if (!clean) return null;
+  return lookupWord(clean);
+}
+
+export function googleTranslateUrl(ltWord) {
+  return (
+    'https://translate.google.com/?sl=lt&tl=ru&text=' +
+    encodeURIComponent(ltWord) +
+    '&op=translate'
+  );
 }

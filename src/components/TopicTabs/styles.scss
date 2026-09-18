@@ -6,6 +6,10 @@
   padding: 10px 20px 48px;
   width: 100%;
 
+  @media (max-width: 640px) {
+    padding: 10px 15px 48px;
+  }
+
   &__head {
     margin-bottom: 16px;
   }
@@ -36,8 +40,13 @@
     display: flex;
     gap: 8px;
     overflow-x: auto;
-    padding: 6px 2px 12px;
+    padding: 10px 2px ;
     border-bottom: 1px solid $border;
+
+    @media (max-width: 640px) {
+      padding: 10px 15px;
+      margin: 0 -15px;
+    }
   }
 
   &__tab {

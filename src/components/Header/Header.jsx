@@ -1,9 +1,12 @@
 import { BookOpenText, Languages } from 'lucide-react';
+import { useHideOnScroll } from '../../hooks/useHideOnScroll.js';
 import './styles.scss';
 
 export function Header() {
+  const hidden = useHideOnScroll();
+
   return (
-    <header className="header">
+    <header className={`header ${hidden ? 'header--hidden' : ''}`}>
       <div className="header__inner">
         <div className="header__logo">
           <span className="header__logo-icon">

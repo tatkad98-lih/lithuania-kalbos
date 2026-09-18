@@ -22,7 +22,10 @@
     border: 1px solid $border;
     border-radius: $radius;
     padding: 24px;
-    padding-bottom: 100px; // space for mobile tabs
+
+    @media (max-width: 640px) {
+      padding: 12px;
+    }
   }
 
   &__lt {
@@ -51,7 +54,7 @@
     }
   }
 
-  // Desktop controls - hidden on mobile
+  // Desktop controls - hidden on mobile (bottom nav lives there)
   &__desktop-controls {
     display: flex;
     gap: 10px;
@@ -87,63 +90,6 @@
 
       &:hover {
         background: #005638;
-      }
-    }
-  }
-
-  // Mobile tabs at bottom
-  &__mobile-tabs {
-    display: none;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    max-width: 900px;
-    margin: 0 auto;
-    background: #fff;
-    border-top: 1px solid $border;
-    border-radius: $radius $radius 0 0;
-    padding: 8px 12px;
-    z-index: 100;
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
-
-    @media (max-width: 640px) {
-      display: flex;
-      justify-content: space-around;
-    }
-  }
-
-  &__mobile-tab {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    background: transparent;
-    border: 0;
-    border-radius: 12px;
-    padding: 8px 12px;
-    cursor: pointer;
-    color: $text-muted;
-    font-size: 11px;
-    font-weight: 600;
-    flex: 1;
-    transition: all 0.15s ease;
-
-    svg {
-      font-size: 20px;
-    }
-
-    &:hover {
-      background: $primary-light;
-      color: $primary;
-    }
-
-    &--active {
-      color: $primary;
-      background: $primary-light;
-
-      svg {
-        color: $primary;
       }
     }
   }

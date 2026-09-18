@@ -1,0 +1,39 @@
+@use '../../styles/variables' as *;
+
+.bottomnav {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .bottomnav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 90;
+    background: $card-bg;
+    border-top: 1px solid $border;
+    padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+
+    &__item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 4px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 600;
+      color: $text-muted;
+
+      &--active {
+        color: $primary;
+        background: $primary-light;
+      }
+    }
+  }
+}

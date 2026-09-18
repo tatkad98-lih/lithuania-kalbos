@@ -18,6 +18,13 @@ body {
   flex-direction: column;
 }
 
+@media (max-width: 640px) {
+  #root {
+    // место под fixed нижнее меню + safe-area
+    padding-bottom: calc(64px + env(safe-area-inset-bottom));
+  }
+}
+
 a {
   color: inherit;
 }

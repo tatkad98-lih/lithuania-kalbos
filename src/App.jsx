@@ -1,6 +1,6 @@
 import { Header } from './components/Header';
 import { TopicTabs } from './components/TopicTabs';
-import { Footer } from './components/Footer';
+import { BottomNav } from './components/BottomNav';
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
       <main>
         <TopicTabs />
       </main>
-      <Footer />
+      <BottomNav />
     </>
   );
 }
