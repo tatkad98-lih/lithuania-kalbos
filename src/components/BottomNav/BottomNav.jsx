@@ -1,10 +1,10 @@
-import { BookOpenText, BookMarked, GraduationCap } from 'lucide-react';
+import { BookOpenText, BookMarked, Layers } from 'lucide-react';
 import './styles.scss';
 
 const items = [
   { id: 'tekstai', view: 'tekstai', icon: BookOpenText, label: 'Тексты' },
   { id: 'zodziai', view: 'zodziai', icon: BookMarked, label: 'Слова' },
-  { id: 'gramatika', view: null, icon: GraduationCap, label: 'Грамматика' },
+  { id: 'korteles', view: 'korteles', icon: Layers, label: 'Карточки' },
 ];
 
 export function BottomNav({ view, onNavigate }) {
@@ -12,20 +12,15 @@ export function BottomNav({ view, onNavigate }) {
     <nav className="bottomnav" aria-label="Основная навигация">
       {items.map((item) => {
         const Icon = item.icon;
-        const active =
-          item.view !== null ? view === item.view : false;
+        const active = view === item.view;
         return (
           <a
             key={item.id}
-            href={item.view === 'zodziai' ? '#zodziai' : item.view === 'tekstai' ? '#tekstai' : '#'}
-            onClick={
-              item.view
-                ? (e) => {
-                    e.preventDefault();
-                    onNavigate(item.view);
-                  }
-                : undefined
-            }
+            href={`#${item.view}`}
+            onClick={(e) => {
+              e.preventDefault();
+              onNavigate(item.view);
+            }}
             className={`bottomnav__item ${active ? 'bottomnav__item--active' : ''}`}
           >
             <Icon size={20} />
