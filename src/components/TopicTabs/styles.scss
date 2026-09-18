@@ -1,0 +1,103 @@
+@use '../../styles/variables' as *;
+
+.topics {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 10px 20px 48px;
+  width: 100%;
+
+  &__head {
+    margin-bottom: 16px;
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 24px;
+    margin: 0 0 6px;
+
+    svg {
+      color: $primary;
+    }
+  }
+
+  &__sub {
+    margin: 0;
+    color: $text-muted;
+    font-size: 15px;
+  }
+
+  &__tabs {
+    margin-top: 14px;
+  }
+
+  &__list {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 6px 2px 12px;
+    border-bottom: 1px solid $border;
+  }
+
+  &__tab {
+    flex: 0 0 auto;
+    border: 1px solid $border;
+    background: #fff;
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    color: $text-muted;
+
+    &[data-selected] {
+      background: $primary;
+      border-color: $primary;
+      color: #fff;
+    }
+  }
+
+  &__panel {
+    padding-top: 18px;
+  }
+
+  &__topic-title {
+    font-size: 20px;
+    margin: 0 0 14px;
+
+    span {
+      color: $text-muted;
+      font-weight: 500;
+      font-size: 16px;
+    }
+  }
+
+  &__empty {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    background: #fff;
+    border: 1px dashed $border;
+    border-radius: $radius;
+    padding: 18px;
+
+    svg {
+      flex-shrink: 0;
+      margin-top: 2px;
+      color: $primary;
+    }
+
+    p {
+      margin: 0;
+      line-height: 1.6;
+      color: $text-muted;
+      font-size: 15px;
+
+      strong {
+        color: $text;
+      }
+    }
+  }
+}

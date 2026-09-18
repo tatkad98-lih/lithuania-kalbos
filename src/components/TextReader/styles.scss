@@ -1,0 +1,81 @@
+@use '../../styles/variables' as *;
+
+.reader {
+  &__hint {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: $primary-light;
+    color: $primary;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+
+  &__controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    border-radius: 999px;
+    padding: 9px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1px solid $border;
+    background: #fff;
+    color: $text;
+
+    &:hover {
+      background: $primary-light;
+    }
+
+    &--primary {
+      background: $primary;
+      border-color: $primary;
+      color: #fff;
+
+      &:hover {
+        background: #005638;
+      }
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  &__para {
+    background: #fff;
+    border: 1px solid $border;
+    border-radius: $radius;
+    padding: 18px 20px;
+  }
+
+  &__lt {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1px 2px;
+    align-items: flex-end;
+  }
+
+  &__ru {
+    margin: 14px 0 0;
+    padding-top: 12px;
+    border-top: 1px dashed $border;
+    color: $text-muted;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+}

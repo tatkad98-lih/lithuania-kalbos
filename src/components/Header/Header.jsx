@@ -16,9 +16,9 @@ export function Header() {
         </div>
 
         <nav className="header__nav">
-          <a href="#" className="header__link header__link--active">
+          <a href="#tekstai" className="header__link header__link--active">
             <BookOpenText size={16} />
-            Главная
+            Тексты
           </a>
           <a href="#" className="header__link">
             Слова
