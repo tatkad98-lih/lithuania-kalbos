@@ -1,0 +1,42 @@
+@use '../../styles/variables' as *;
+
+// Тот же вид, что у списка тем (topics__list / topics__tab)
+.scrolltabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 10px 2px;
+  border-bottom: 1px solid $border;
+
+  @media (max-width: 640px) {
+    padding: 10px 15px;
+    margin: 0 -15px;
+  }
+
+  &__tab {
+    flex: 0 0 auto;
+    border: 1px solid $border;
+    background: #fff;
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    color: $text-muted;
+    transition: all 0.15s ease;
+
+    &:hover {
+      background: $primary-light;
+      border-color: $primary;
+      color: $primary;
+    }
+
+    &--active {
+      background: $primary;
+      border-color: $primary;
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(0, 106, 68, 0.3);
+    }
+  }
+}

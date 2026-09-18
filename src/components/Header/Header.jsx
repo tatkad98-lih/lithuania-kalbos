@@ -2,8 +2,13 @@ import { BookOpenText, Languages } from 'lucide-react';
 import { useHideOnScroll } from '../../hooks/useHideOnScroll.js';
 import './styles.scss';
 
-export function Header() {
+export function Header({ view, onNavigate }) {
   const hidden = useHideOnScroll();
+
+  const go = (e, v) => {
+    e.preventDefault();
+    onNavigate(v);
+  };
 
   return (
     <header className={`header ${hidden ? 'header--hidden' : ''}`}>
@@ -19,11 +24,19 @@ export function Header() {
         </div>
 
         <nav className="header__nav">
-          <a href="#tekstai" className="header__link header__link--active">
+          <a
+            href="#tekstai"
+            onClick={(e) => go(e, 'tekstai')}
+            className={`header__link ${view === 'tekstai' ? 'header__link--active' : ''}`}
+          >
             <BookOpenText size={16} />
             Тексты
           </a>
-          <a href="#" className="header__link">
+          <a
+            href="#zodziai"
+            onClick={(e) => go(e, 'zodziai')}
+            className={`header__link ${view === 'zodziai' ? 'header__link--active' : ''}`}
+          >
             Слова
           </a>
           <a href="#" className="header__link">
