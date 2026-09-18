@@ -40,6 +40,21 @@ function norm(s) {
     .replace(/[\u0300-\u036f]/g, '');
 }
 
+function findLtVoice() {
+  try {
+    const synth = window.speechSynthesis;
+    if (!synth) return null;
+    const voices = synth.getVoices();
+    return (
+      voices.find((v) => v.lang && v.lang.toLowerCase().startsWith('lt-lt')) ??
+      voices.find((v) => v.lang && v.lang.toLowerCase().startsWith('lt')) ??
+      null
+    );
+  } catch {
+    return null;
+  }
+}
+
 function speak(lt) {
   try {
     const synth = window.speechSynthesis;
@@ -47,6 +62,9 @@ function speak(lt) {
     synth.cancel();
     const u = new SpeechSynthesisUtterance(lt);
     u.lang = 'lt-LT';
+    const voice = findLtVoice();
+    if (voice) u.voice = voice;
+    u.rate = 0.9;
     synth.speak(u);
   } catch {
     // no TTS available
@@ -66,6 +84,9 @@ export function Spelling() {
   const [known, setKnown] = useState(0);
   const [mistakes, setMistakes] = useState([]);
   const [roundsDone, setRoundsDone] = useState(0);
+  const [hasLtVoice, setHasLtVoice] = useState(() =>
+    typeof window !== 'undefined' && 'speechSynthesis' in window ? null : false,
+  );
   const inputRef = useRef(null);
   const timerRef = useRef(null);
 
@@ -134,6 +155,18 @@ export function Spelling() {
   useEffect(() => {
     inputRef.current?.focus();
   }, [idx, mode, cat, done]);
+
+  useEffect(() => {
+    const synth = window.speechSynthesis;
+    if (!synth) return undefined;
+    const update = () => setHasLtVoice(findLtVoice() != null);
+    synth.addEventListener('voiceschanged', update);
+    const t = window.setTimeout(update, 0);
+    return () => {
+      window.clearTimeout(t);
+      synth.removeEventListener('voiceschanged', update);
+    };
+  }, []);
 
   useEffect(() => {
     if (mode === 'hear' && current) speak(current.lt);
@@ -269,6 +302,11 @@ export function Spelling() {
                 <span className="spell__hint">
                   Paklausyk ir parašyk · <strong>{current.ru}</strong>
                 </span>
+                {hasLtVoice === false && (
+                  <span className="spell__voice-warn">
+                    ⚠ На устройстве нет литовского голоса — слово может читаться по буквам
+                  </span>
+                )}
               </>
             )}
             <form onSubmit={check}>
