@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Header } from './components/Header';
 import { TopicTabs } from './components/TopicTabs';
+import { PictureTopics } from './components/PictureTopics';
 import { MatchGame } from './components/MatchGame';
 import { Flashcards } from './components/Flashcards';
 import { Spelling } from './components/Spelling';
@@ -22,6 +23,8 @@ function App() {
       <main>
         {view === 'tekstai' ? (
           <TopicTabs />
+        ) : view === 'paveikslai' ? (
+          <PictureTopics />
         ) : view === 'zodziai' ? (
           <MatchGame />
         ) : view === 'korteles' ? (

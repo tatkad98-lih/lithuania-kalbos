@@ -120,6 +120,43 @@
     }
   }
 
+  @media (max-width: 900px) and (min-width: 641px) {
+    &__inner {
+      padding: 10px 14px;
+      gap: 8px;
+    }
+
+    &__logo {
+      gap: 8px;
+
+      &-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+      }
+
+      &-text {
+        font-size: 18px;
+
+        small {
+          display: none;
+        }
+      }
+    }
+
+    &__nav {
+      gap: 4px;
+    }
+
+    &__link {
+      padding: 8px 9px;
+
+      svg {
+        display: none;
+      }
+    }
+  }
+
   @media (max-width: 640px) {
     &__inner {
       padding: 10px 16px;
