@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Button } from '@base-ui/react/button';
-import { MousePointerClick, Languages } from 'lucide-react';
+import { MousePointerClick } from 'lucide-react';
 import { Word } from '../Word';
 import { translateWord } from '../../data/dictionary.js';
 import './styles.scss';
@@ -18,8 +17,6 @@ export function TextReader({ paragraphs = [] }) {
   const handleWordClick = (key) => {
     setActiveKey((prev) => (prev === key ? null : key));
   };
-
-  const clearActive = () => setActiveKey(null);
 
   return (
     <div className="reader">
@@ -49,13 +46,6 @@ export function TextReader({ paragraphs = [] }) {
             })}
           </p>
         ))}
-      </div>
-
-      <div className="reader__desktop-controls">
-        <Button className="reader__btn" onClick={clearActive}>
-          <Languages size={15} />
-          Сбросить
-        </Button>
       </div>
     </div>
   );
