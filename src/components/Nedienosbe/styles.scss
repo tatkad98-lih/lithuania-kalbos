@@ -1,0 +1,164 @@
+@use '../../styles/variables' as *;
+
+.ned {
+  margin: 0 auto 24px;
+  padding: 0 20px;
+  max-width: 960px;
+
+  @media (max-width: 640px) {
+    padding: 0 15px;
+  }
+
+  &__head {
+    margin-bottom: 14px;
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 6px;
+    font-size: 20px;
+    font-weight: 800;
+
+    svg {
+      color: $primary;
+    }
+  }
+
+  &__sub {
+    margin: 0;
+    font-size: 14px;
+    color: $text-muted;
+  }
+
+  &__panel {
+    margin-top: 16px;
+  }
+
+  &__section-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px;
+    margin: 0 0 4px;
+    font-size: 18px;
+
+    span {
+      font-size: 14px;
+      font-weight: 600;
+      color: $text-muted;
+    }
+  }
+
+  &__count {
+    margin: 0 0 14px;
+    font-size: 13px;
+    color: $text-muted;
+  }
+
+  &__pinned {
+    margin-bottom: 20px;
+    padding: 12px;
+    border: 1px solid $accent;
+    border-radius: $radius;
+    background: $primary-light;
+  }
+
+  &__pinned-title {
+    margin: 0 0 10px;
+    font-size: 13px;
+    font-weight: 800;
+    color: $primary;
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__group {
+    grid-column: 1 / -1;
+    margin-top: 8px;
+    padding-top: 10px;
+    border-top: 1px dashed $border;
+    font-size: 13px;
+    font-weight: 800;
+    color: $primary;
+
+    em {
+      font-style: normal;
+      font-weight: 600;
+      color: $text-muted;
+    }
+
+    &:first-child {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: 0;
+    }
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px 9px 12px;
+    border: 1px solid $border;
+    border-radius: 12px;
+    background: $card-bg;
+
+    &--pinned {
+      border-color: $accent;
+      background: $card-bg;
+    }
+  }
+
+  &__pair {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  &__lt {
+    font-size: 15px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+
+  &__ru {
+    font-size: 13px;
+    color: $text-muted;
+    overflow-wrap: anywhere;
+  }
+
+  &__star {
+    flex: 0 0 auto;
+    margin-left: auto;
+    padding: 4px;
+    cursor: pointer;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: $text-muted;
+    transition: color 0.15s ease, background 0.15s ease;
+
+    &:hover {
+      background: $primary-light;
+      color: $secondary;
+    }
+
+    &[aria-pressed='true'] {
+      color: $secondary;
+    }
+  }
+}
