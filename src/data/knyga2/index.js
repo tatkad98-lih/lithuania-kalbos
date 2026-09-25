@@ -9,7 +9,8 @@ import { section8 } from './section8.js';
 import { section9 } from './section9.js';
 import { section10 } from './section10.js';
 
-export const nedienosbeSections = [
+// Chapters 1-10 of "Nė dienos be lietuvių kalbos. Antroji knyga" (2014).
+export const knyga2Sections = [
   section1,
   section2,
   section3,
@@ -21,5 +22,3 @@ export const nedienosbeSections = [
   section9,
   section10,
 ];
-
-export const nedienosbeWords = nedienosbeSections.flatMap((section) => section.words);

@@ -120,7 +120,7 @@
     }
   }
 
-  @media (max-width: 900px) and (min-width: 641px) {
+  @media (max-width: 1080px) and (min-width: 641px) {
     &__inner {
       padding: 10px 14px;
       gap: 8px;
@@ -154,6 +154,12 @@
       svg {
         display: none;
       }
+    }
+  }
+
+  @media (max-width: 860px) and (min-width: 641px) {
+    &__logo-text {
+      display: none;
     }
   }
 
