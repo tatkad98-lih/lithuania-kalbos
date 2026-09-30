@@ -1,0 +1,367 @@
+@use '../../styles/variables' as *;
+
+.wri {
+  margin: 0 auto 24px;
+  padding: 0 20px;
+  max-width: 960px;
+
+  @media (max-width: 640px) {
+    padding: 0 15px;
+  }
+
+  &__head {
+    margin-bottom: 14px;
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 6px;
+    font-size: 20px;
+    font-weight: 800;
+
+    svg {
+      color: $primary;
+    }
+  }
+
+  &__sub {
+    margin: 0;
+    font-size: 14px;
+    color: $text-muted;
+  }
+
+  &__facts {
+    margin-bottom: 16px;
+    padding: 12px 14px;
+    border: 1px solid $border;
+    border-radius: $radius;
+    background: $primary-light;
+  }
+
+  &__facts-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 0 8px;
+    font-size: 13px;
+    font-weight: 800;
+    color: $primary;
+  }
+
+  &__facts-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 6px 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__fact-lt {
+    margin-right: 6px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  &__fact-ru {
+    font-size: 13px;
+    color: $text-muted;
+  }
+
+  &__custom {
+    margin-bottom: 16px;
+    padding: 14px;
+    border: 1px solid $accent;
+    border-radius: $radius;
+    background: $card-bg;
+  }
+
+  &__custom-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+
+  &__custom label {
+    display: block;
+    margin-bottom: 10px;
+
+    span {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      color: $text-muted;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 9px 10px;
+      border: 1px solid $border;
+      border-radius: 10px;
+      background: $bg;
+      color: $text;
+      font-family: inherit;
+      font-size: 14px;
+      resize: vertical;
+    }
+  }
+
+  &__custom-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 16px 0 0;
+
+    @media (max-width: 760px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 14px;
+    border: 1px solid $border;
+    border-radius: $radius;
+    background: $card-bg;
+
+    &--task {
+      border-color: $primary;
+    }
+  }
+
+  &__card-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 800;
+  }
+
+  &__brief {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  &__points {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 14px;
+    line-height: 1.5;
+
+    li::marker {
+      color: $primary;
+    }
+  }
+
+  &__starter {
+    margin-top: auto;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: $primary-light;
+
+    span {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: $primary;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    strong {
+      font-size: 14px;
+    }
+  }
+
+  &__model-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  &__model-actions {
+    display: flex;
+    gap: 6px;
+  }
+
+  &__model-lt {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.55;
+  }
+
+  &__model-ru {
+    margin: 0;
+    padding: 10px 12px;
+    border-left: 3px solid $accent;
+    border-radius: 0 10px 10px 0;
+    background: $primary-light;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  &__model-count {
+    margin: 0;
+    font-size: 12px;
+    color: $text-muted;
+  }
+
+  &__warn {
+    margin: 0;
+    font-size: 12px;
+    color: $secondary;
+  }
+
+  &__answer {
+    margin-top: 16px;
+    padding: 14px;
+    border: 1px solid $border;
+    border-radius: $radius;
+    background: $card-bg;
+  }
+
+  &__answer-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  &__answer-tools {
+    display: flex;
+    gap: 6px;
+  }
+
+  &__textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid $border;
+    border-radius: 12px;
+    background: $bg;
+    color: $text;
+    font-family: inherit;
+    font-size: 15px;
+    line-height: 1.55;
+    resize: vertical;
+  }
+
+  &__report {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
+  }
+
+  &__chip {
+    padding: 4px 9px;
+    border: 1px solid $border;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    color: $text-muted;
+
+    &--ok {
+      border-color: $primary;
+      background: $primary-light;
+      color: $primary;
+    }
+
+    &--warn,
+    &--hint {
+      border-color: $secondary;
+      background: $primary-light;
+      color: $secondary;
+    }
+
+    &--bad {
+      border-color: $secondary;
+      background: $danger-bg;
+      color: $secondary;
+    }
+
+    &--info {
+      border-color: $accent;
+      color: $text;
+    }
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 11px;
+    cursor: pointer;
+    border: 1px solid $border;
+    border-radius: 999px;
+    background: $card-bg;
+    color: $text;
+    font-size: 13px;
+    font-weight: 600;
+
+    &:hover:not(:disabled) {
+      border-color: $primary;
+      color: $primary;
+    }
+
+    &:disabled {
+      cursor: default;
+      opacity: 0.5;
+    }
+
+    &--primary {
+      border-color: $primary;
+      background: $primary;
+      color: #fff;
+    }
+
+    &--accent {
+      border-color: $accent;
+      color: $text;
+    }
+
+    &--ghost {
+      background: transparent;
+    }
+
+    &--done {
+      border-color: $primary;
+      background: $primary-light;
+      color: $primary;
+    }
+  }
+
+  &__icon {
+    display: inline-grid;
+    place-items: center;
+    padding: 6px;
+    cursor: pointer;
+    border: 1px solid $border;
+    border-radius: 999px;
+    background: $card-bg;
+    color: $text-muted;
+
+    &:hover {
+      color: $primary;
+      border-color: $primary;
+    }
+  }
+}

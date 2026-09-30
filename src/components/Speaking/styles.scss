@@ -1,0 +1,246 @@
+@use '../../styles/variables' as *;
+
+.spk {
+  margin: 0 auto 24px;
+  padding: 0 20px;
+  max-width: 960px;
+
+  @media (max-width: 640px) {
+    padding: 0 15px;
+  }
+
+  &__head {
+    margin-bottom: 14px;
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 6px;
+    font-size: 20px;
+    font-weight: 800;
+
+    svg {
+      color: $primary;
+    }
+  }
+
+  &__sub {
+    margin: 0;
+    font-size: 14px;
+    color: $text-muted;
+  }
+
+  &__hints {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+
+  &__hint {
+    padding: 5px 10px;
+    border: 1px solid $border;
+    border-radius: 999px;
+    background: $primary-light;
+    font-size: 12px;
+    color: $text;
+
+    b {
+      color: $primary;
+    }
+  }
+
+  &__pills {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 12px 0;
+  }
+
+  &__pill {
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: $primary-light;
+    font-size: 13px;
+    font-weight: 700;
+    color: $primary;
+  }
+
+  &__card {
+    padding: 18px 16px;
+    border: 1px solid $border;
+    border-radius: $radius;
+    background: $card-bg;
+  }
+
+  &__topic {
+    display: inline-block;
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    color: $text-muted;
+  }
+
+  &__question {
+    margin: 0 0 14px;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.35;
+
+    @media (max-width: 640px) {
+      font-size: 19px;
+    }
+  }
+
+  &__warn {
+    margin: 0 0 10px;
+    font-size: 12px;
+    color: $secondary;
+  }
+
+  &__err {
+    margin: 10px 0 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: $secondary;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  &__play,
+  &__mic {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    min-width: 92px;
+    padding: 12px 14px;
+    cursor: pointer;
+    border: 1px solid $primary;
+    border-radius: 16px;
+    background: $primary-light;
+    color: $primary;
+    font-size: 13px;
+    font-weight: 700;
+
+    &:hover:not(:disabled) {
+      background: $primary;
+      color: #fff;
+    }
+
+    &:disabled {
+      cursor: default;
+      opacity: 0.5;
+    }
+
+    &--live {
+      border-color: $secondary;
+      background: $danger-bg;
+      color: $secondary;
+      animation: spk-pulse 1.2s ease-in-out infinite;
+    }
+  }
+
+  &__answer {
+    display: block;
+    margin-top: 16px;
+
+    span {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 12px;
+      font-weight: 700;
+      color: $text-muted;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid $border;
+      border-radius: 12px;
+      background: $bg;
+      color: $text;
+      font-family: inherit;
+      font-size: 15px;
+      line-height: 1.5;
+      resize: vertical;
+    }
+  }
+
+  &__nav {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  &__note {
+    margin: 12px 0 0;
+    font-size: 13px;
+    color: $text-muted;
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    cursor: pointer;
+    border: 1px solid $border;
+    border-radius: 999px;
+    background: $card-bg;
+    color: $text;
+    font-size: 13px;
+    font-weight: 600;
+
+    &:hover:not(:disabled) {
+      border-color: $primary;
+      color: $primary;
+    }
+
+    &:disabled {
+      cursor: default;
+      opacity: 0.5;
+    }
+
+    &--sm {
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+
+    &--primary {
+      border-color: $primary;
+      background: $primary;
+      color: #fff;
+    }
+
+    &--active {
+      border-color: $primary;
+      background: $primary-light;
+      color: $primary;
+    }
+
+    &--done {
+      border-color: $primary;
+      background: $primary-light;
+      color: $primary;
+    }
+  }
+}
+
+@keyframes spk-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.65;
+  }
+}

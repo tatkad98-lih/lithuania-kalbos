@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Keyboard, Volume2, RotateCcw, Repeat } from 'lucide-react';
 import { wordCategories, wordsByCategory, allWords } from '../../data/words.js';
 import { ScrollTabs } from '../ScrollTabs';
+import { findLtVoice, hasSpeechSynthesis, speak, stopSpeaking } from '../../lib/speech.js';
 import { useStarred, wordKey } from '../../hooks/useStarred.js';
 import './styles.scss';
 
@@ -40,35 +41,8 @@ function norm(s) {
     .replace(/[\u0300-\u036f]/g, '');
 }
 
-function findLtVoice() {
-  try {
-    const synth = window.speechSynthesis;
-    if (!synth) return null;
-    const voices = synth.getVoices();
-    return (
-      voices.find((v) => v.lang && v.lang.toLowerCase().startsWith('lt-lt')) ??
-      voices.find((v) => v.lang && v.lang.toLowerCase().startsWith('lt')) ??
-      null
-    );
-  } catch {
-    return null;
-  }
-}
-
-function speak(lt) {
-  try {
-    const synth = window.speechSynthesis;
-    if (!synth) return;
-    synth.cancel();
-    const u = new SpeechSynthesisUtterance(lt);
-    u.lang = 'lt-LT';
-    const voice = findLtVoice();
-    if (voice) u.voice = voice;
-    u.rate = 0.9;
-    synth.speak(u);
-  } catch {
-    // no TTS available
-  }
+function findLtVoiceSafe() {
+  return hasSpeechSynthesis() ? findLtVoice() : null;
 }
 
 export function Spelling() {
@@ -85,7 +59,7 @@ export function Spelling() {
   const [mistakes, setMistakes] = useState([]);
   const [roundsDone, setRoundsDone] = useState(0);
   const [hasLtVoice, setHasLtVoice] = useState(() =>
-    typeof window !== 'undefined' && 'speechSynthesis' in window ? null : false,
+    hasSpeechSynthesis() ? null : false,
   );
   const inputRef = useRef(null);
   const timerRef = useRef(null);
@@ -130,7 +104,7 @@ export function Spelling() {
 
   const pickMode = (next) => {
     if (next === mode) return;
-    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    stopSpeaking();
     setMode(next);
     resetFor(poolFor(cat, starredSet));
   };
@@ -159,7 +133,7 @@ export function Spelling() {
   useEffect(() => {
     const synth = window.speechSynthesis;
     if (!synth) return undefined;
-    const update = () => setHasLtVoice(findLtVoice() != null);
+    const update = () => setHasLtVoice(findLtVoiceSafe() != null);
     synth.addEventListener('voiceschanged', update);
     const t = window.setTimeout(update, 0);
     return () => {
@@ -175,7 +149,7 @@ export function Spelling() {
   useEffect(
     () => () => {
       clearTimer();
-      if (window.speechSynthesis) window.speechSynthesis.cancel();
+      stopSpeaking();
     },
     [],
   );
