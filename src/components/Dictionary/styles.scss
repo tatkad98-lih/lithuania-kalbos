@@ -101,6 +101,10 @@
     background: linear-gradient(160deg, #3f7280 0%, #2b5461 55%, #1f3f4a 100%);
   }
 
+  &__book--green &__cover {
+    background: linear-gradient(160deg, #4a7d55 0%, #35603e 55%, #27472e 100%);
+  }
+
   &__cover-spine {
     position: absolute;
     top: 0;
@@ -235,6 +239,10 @@
 
   &__book--cool &__open-cover {
     background: linear-gradient(160deg, #3f7280, #1f3f4a);
+  }
+
+  &__book--green &__open-cover {
+    background: linear-gradient(160deg, #4a7d55, #27472e);
   }
 
   &__open-titles {

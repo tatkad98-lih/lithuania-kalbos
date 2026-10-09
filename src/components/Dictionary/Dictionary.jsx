@@ -1,9 +1,13 @@
-import { useMemo, useState } from 'react';
+import { lazy, Suspense, useMemo, useState } from 'react';
 import { BookA, ChevronLeft, Star } from 'lucide-react';
-import { books, countWords } from '../../data/books.js';
+import { books, countSections, countWords } from '../../data/books.js';
 import { ScrollTabs } from '../ScrollTabs';
 import { useStarred, wordKey } from '../../hooks/useStarred.js';
 import './styles.scss';
+
+const BookThematic = lazy(() =>
+  import('./BookThematic.jsx').then((m) => ({ default: m.BookThematic })),
+);
 
 const SECTIONS_KEY = 'dictionarySections';
 
@@ -58,8 +62,10 @@ function Shelf({ items, starredPerBook, sectionByBook, onOpenBook }) {
 
       <div className="dict__shelf">
         {items.map((book) => {
-          const saved = book.sections.find((item) => item.id === sectionByBook[book.id]);
-          const savedIndex = book.sections.findIndex((item) => item.id === saved?.id);
+          const saved = book.sections?.find((item) => item.id === sectionByBook[book.id]);
+          const savedIndex = book.sections
+            ? book.sections.findIndex((item) => item.id === saved?.id)
+            : -1;
 
           return (
             <button
@@ -80,7 +86,7 @@ function Shelf({ items, starredPerBook, sectionByBook, onOpenBook }) {
               <span className="dict__book-caption">
                 <b className="dict__book-name">{book.titleRu}</b>
                 <span className="dict__book-meta">
-                  {book.sections.length} {book.wordUnit} · {countWords(book)} слов
+                  {countSections(book)} {book.wordUnit} · {countWords(book)} слов
                 </span>
                 {starredPerBook[book.id] > 0 && (
                   <span className="dict__book-stars">⭐ {starredPerBook[book.id]}</span>
@@ -106,6 +112,10 @@ export function Dictionary({ bookId = null, onOpenBook, onBack }) {
   const starredPerBook = useMemo(() => {
     const counts = {};
     for (const book of books) {
+      if (book.kind === 'thematic') {
+        counts[book.id] = 0;
+        continue;
+      }
       counts[book.id] = book.sections.reduce(
         (sum, section) =>
           sum +
@@ -118,13 +128,18 @@ export function Dictionary({ bookId = null, onOpenBook, onBack }) {
   }, [starredSet]);
 
   const book = bookId ? books.find((item) => item.id === bookId) : null;
-  const section = book
-    ? (book.sections.find((item) => item.id === sectionByBook[book.id]) ?? book.sections[0])
-    : null;
+  const isThematic = book?.kind === 'thematic';
+  const section =
+    book && !isThematic
+      ? (book.sections.find((item) => item.id === sectionByBook[book.id]) ?? book.sections[0])
+      : null;
 
   const tabs = useMemo(
-    () => (book ? book.sections.map((item) => ({ id: item.id, label: `${item.nr}. ${item.shortRu}` })) : []),
-    [book],
+    () =>
+      book && !isThematic
+        ? book.sections.map((item) => ({ id: item.id, label: `${item.nr}. ${item.shortRu}` }))
+        : [],
+    [book, isThematic],
   );
 
   const { pinnedRows, rows, total } = useMemo(
@@ -198,41 +213,49 @@ export function Dictionary({ bookId = null, onOpenBook, onBack }) {
             </span>
           </h2>
           <p className="dict__sub">
-            {book.year} · {book.sections.length} {book.wordUnit} · {countWords(book)} слов
+            {book.year} · {countSections(book)} {book.wordUnit} · {countWords(book)} слов
           </p>
         </div>
       </div>
 
-      <ScrollTabs items={tabs} activeId={section.id} onSelect={selectSection} />
+      {isThematic ? (
+        <Suspense fallback={<p className="topics__sub">Kraunama…</p>}>
+          <BookThematic book={book} />
+        </Suspense>
+      ) : (
+        <>
+          <ScrollTabs items={tabs} activeId={section.id} onSelect={selectSection} />
 
-      <div className="dict__panel">
-        <h3 className="dict__section-title">
-          {section.nr}. {section.titleLt}
-          <span>{section.shortRu}</span>
-        </h3>
-        <p className="dict__count">
-          {total} žodžių · ⭐ {pinnedRows.length}
-        </p>
+          <div className="dict__panel">
+            <h3 className="dict__section-title">
+              {section.nr}. {section.titleLt}
+              <span>{section.shortRu}</span>
+            </h3>
+            <p className="dict__count">
+              {total} žodžių · ⭐ {pinnedRows.length}
+            </p>
 
-        {pinnedRows.length > 0 && (
-          <div className="dict__pinned">
-            <h4 className="dict__pinned-title">Закреплённые слова</h4>
-            <ul className="dict__list">{pinnedRows.map(renderWord)}</ul>
+            {pinnedRows.length > 0 && (
+              <div className="dict__pinned">
+                <h4 className="dict__pinned-title">Закреплённые слова</h4>
+                <ul className="dict__list">{pinnedRows.map(renderWord)}</ul>
+              </div>
+            )}
+
+            <ul className="dict__list">
+              {rows.map((entry, index) =>
+                entry.kind === 'group' ? (
+                  <li key={`${entry.lt}-${index}`} className="dict__group">
+                    {entry.lt} <em>{entry.ru}</em>
+                  </li>
+                ) : (
+                  renderWord(entry, index)
+                ),
+              )}
+            </ul>
           </div>
-        )}
-
-        <ul className="dict__list">
-          {rows.map((entry, index) =>
-            entry.kind === 'group' ? (
-              <li key={`${entry.lt}-${index}`} className="dict__group">
-                {entry.lt} <em>{entry.ru}</em>
-              </li>
-            ) : (
-              renderWord(entry, index)
-            ),
-          )}
-        </ul>
-      </div>
+        </>
+      )}
     </section>
   );
 }

@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Layers, Star, RotateCcw, Repeat } from 'lucide-react';
+import { Heart, Layers, RotateCcw, Star, Repeat } from 'lucide-react';
 import { wordCategories, wordsByCategory, allWords } from '../../data/words.js';
 import { ScrollTabs } from '../ScrollTabs';
 import { useStarred, wordKey } from '../../hooks/useStarred.js';
+import { useKnown } from '../../hooks/useKnown.js';
 import './styles.scss';
 
 const ROUND = 20;
@@ -19,24 +20,29 @@ function shuffled(arr) {
   return a;
 }
 
-function takeWords(pool, n) {
-  return shuffled(pool).slice(0, Math.min(n, pool.length));
-}
-
-function poolFor(cat, starredSet) {
+function poolFor(cat, starredSet, pool) {
+  if (pool) return pool;
   if (cat === ALL) return allWords;
   if (cat === STARRED) return allWords.filter((w) => starredSet.has(wordKey(w)));
   return wordsByCategory[cat] ?? [];
 }
 
-function freshQueue(pool) {
-  return takeWords(pool, ROUND).map((w) => ({ ...w, key: wordKey(w) }));
+function freshQueue(pool, limit = ROUND) {
+  const picked = limit ? shuffled(pool).slice(0, Math.min(limit, pool.length)) : shuffled(pool);
+  return picked.map((w) => ({ ...w, key: wordKey(w) }));
 }
 
-export function Flashcards() {
-  const { starredSet, toggleStar, isStarred } = useStarred();
+const POOL = 'pool';
+
+export function Flashcards({ pool = null, title = '', mark = 'star', embedded = false }) {
+  const stars = useStarred();
+  const hearts = useKnown();
+  const store = mark === 'heart' ? hearts : stars;
+  const starredSet = store.knownSet ?? stars.starredSet;
+  const isStarred = store.isKnown ?? store.isStarred;
+  const toggleMark = store.toggleKnown ?? store.toggleStar;
   const [cat, setCat] = useState(ALL);
-  const [queue, setQueue] = useState(() => freshQueue(allWords));
+  const [queue, setQueue] = useState(() => freshQueue(pool ?? allWords, pool ? 0 : ROUND));
   const [idx, setIdx] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [known, setKnown] = useState(0);
@@ -54,16 +60,19 @@ export function Flashcards() {
   const left = queue.length - Math.min(idx, queue.length);
 
   const tabItems = useMemo(
-    () => [
-      { id: ALL, label: `🎲 Все слова · ${allWords.length}` },
-      ...wordCategories.map((c) => ({ id: c.id, label: `${c.icon} ${c.titleRu} · ${c.count}` })),
-      { id: STARRED, label: `⭐ Žvaigždutės · ${starredCount}` },
-    ],
-    [starredCount],
+    () =>
+      pool
+        ? [{ id: POOL, label: title || 'Tema' }]
+        : [
+            { id: ALL, label: `🎲 Все слова · ${allWords.length}` },
+            ...wordCategories.map((c) => ({ id: c.id, label: `${c.icon} ${c.titleRu} · ${c.count}` })),
+            { id: STARRED, label: `⭐ Žvaigždutės · ${starredCount}` },
+          ],
+    [pool, title, starredCount],
   );
 
-  const resetFor = (pool) => {
-    setQueue(freshQueue(pool));
+  const resetFor = (list) => {
+    setQueue(freshQueue(list, pool ? 0 : ROUND));
     setIdx(0);
     setFlipped(false);
     setKnown(0);
@@ -73,13 +82,13 @@ export function Flashcards() {
   };
 
   const pickCat = (next) => {
-    if (next === cat) return;
+    if (pool || next === cat) return;
     setCat(next);
-    resetFor(poolFor(next, starredSet));
+    resetFor(poolFor(next, starredSet, null));
   };
 
   const newSet = () => {
-    resetFor(poolFor(cat, starredSet));
+    resetFor(pool ? pool : poolFor(cat, starredSet, null));
     setRoundsDone((v) => v + 1);
   };
 
@@ -180,21 +189,25 @@ export function Flashcards() {
       : { transform: 'translateX(0px)', transition: 'transform 0.18s ease' };
 
   const starred = current ? isStarred(current.key) : false;
+  const MarkIcon = mark === 'heart' ? Heart : Star;
 
   return (
-    <section id="korteles" className="cards">
-      <div className="cards__head">
-        <h2 className="cards__title">
-          <Layers size={20} />
-          Kortelės — Карточки
-        </h2>
-        <p className="cards__sub">
-          Если знаешь сразу — смахни вправо / нажми Žinojau. Хочешь проверить себя — нажми на карточку,
-          там литовский перевод.
-        </p>
-      </div>
+    <section id={embedded ? undefined : 'korteles'} className={`cards ${embedded ? 'cards--embedded' : ''}`}>
+      {!embedded && (
+        <div className="cards__head">
+          <h2 className="cards__title">
+            <Layers size={20} />
+            Kortelės — Карточки
+          </h2>
+          <p className="cards__sub">
+            Если знаешь сразу — смахни вправо / нажми Žinojau. Хочешь проверить себя — нажми на карточку,
+            там литовский перевод.
+          </p>
+        </div>
+      )}
 
-      <ScrollTabs items={tabItems} activeId={cat} onSelect={pickCat} />
+      {pool && <p className="cards__scope">{title || 'Tema'} · {queue.length} žodžių</p>}
+      {!pool && <ScrollTabs items={tabItems} activeId={cat} onSelect={pickCat} />}
 
       <div className="cards__pills">
         <span className="cards__pill">Liko: {left}</span>
@@ -246,15 +259,15 @@ export function Flashcards() {
               <button
                 type="button"
                 className={`fcard__star ${starred ? 'fcard__star--on' : ''}`}
-                title={starred ? 'Убрать звёздочку' : 'Отметить звёздочкой'}
-                aria-label={starred ? 'Убрать звёздочку' : 'Отметить звёздочкой'}
+                title={mark === 'heart' ? (starred ? 'Убрать сердечко' : 'Знаю это слово') : starred ? 'Убрать звёздочку' : 'Отметить звёздочкой'}
+                aria-label={starred ? 'Снять отметку' : 'Отметить'}
                 onPointerDown={(e) => e.stopPropagation()}
                 onClick={(e) => {
                   e.stopPropagation();
-                  if (current) toggleStar(current.key);
+                  if (current) toggleMark(current.key);
                 }}
               >
-                <Star size={18} fill={starred ? 'currentColor' : 'none'} />
+                <MarkIcon size={18} fill={starred ? 'currentColor' : 'none'} />
               </button>
               <div className={`fcard__inner ${flipped ? 'fcard__inner--flip' : ''}`}>
                 <div className="fcard__face fcard__face--front">

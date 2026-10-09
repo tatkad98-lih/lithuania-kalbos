@@ -59,8 +59,10 @@ function startCat(cat) {
   return freshState(cat, dealDeck(wordsByCategory[cat]), 0);
 }
 
-export function MatchGame() {
-  const [s, setS] = useState(() => startCat(ALL));
+const POOL = 'pool';
+
+export function MatchGame({ pool = null, title = '', embedded = false }) {
+  const [s, setS] = useState(() => (pool ? freshState(POOL, dealDeck(pool), 0) : startCat(ALL)));
   const [totalPairs, setTotalPairs] = useState(0);
   const [totalErrors, setTotalErrors] = useState(0);
   const [roundsDone, setRoundsDone] = useState(0);
@@ -68,12 +70,20 @@ export function MatchGame() {
   const done = s.matched.length === s.left.length;
 
   const pickCat = (cat) => {
-    if (cat === s.cat) return;
+    if (pool || cat === s.cat) return;
     setS(startCat(cat));
   };
 
   const nextRound = () => {
     setRoundsDone((v) => v + 1);
+    if (pool) {
+      setS((prev) =>
+        prev.chunkIdx + 1 < prev.chunks.length
+          ? freshState(POOL, prev.chunks, prev.chunkIdx + 1)
+          : freshState(POOL, dealDeck(pool), 0),
+      );
+      return;
+    }
     if (s.cat === ALL) {
       setS(freshState(ALL, [takeRound(allWords, ROUND)], 0));
       return;
@@ -122,25 +132,34 @@ export function MatchGame() {
   };
 
   return (
-    <section id="zodziai" className="match">
-      <div className="match__head">
-        <h2 className="match__title">
-          <Puzzle size={20} />
-          Žodžiai — Слова
-        </h2>
-        <p className="match__sub">
-          Соединяй пары: нажми слово слева, затем перевод справа. По {ROUND} слов за раз.
-        </p>
-      </div>
+    <section
+      id={embedded ? undefined : 'zodziai'}
+      className={`match ${embedded ? 'match--embedded' : ''}`}
+    >
+      {!embedded && (
+        <div className="match__head">
+          <h2 className="match__title">
+            <Puzzle size={20} />
+            Žodžiai — Слова
+          </h2>
+          <p className="match__sub">
+            Соединяй пары: нажми слово слева, затем перевод справа. По {ROUND} слов за раз.
+          </p>
+        </div>
+      )}
 
-      <ScrollTabs
-        items={[
-          { id: ALL, label: `🎲 Все слова · ${allWords.length}` },
-          ...wordCategories.map((c) => ({ id: c.id, label: `${c.icon} ${c.titleRu} · ${c.count}` })),
-        ]}
-        activeId={s.cat}
-        onSelect={pickCat}
-      />
+      {pool ? (
+        <p className="match__scope">{title || 'Tema'} · {s.left.length + s.matched.length} žodžių</p>
+      ) : (
+        <ScrollTabs
+          items={[
+            { id: ALL, label: `🎲 Все слова · ${allWords.length}` },
+            ...wordCategories.map((c) => ({ id: c.id, label: `${c.icon} ${c.titleRu} · ${c.count}` })),
+          ]}
+          activeId={s.cat}
+          onSelect={pickCat}
+        />
+      )}
 
       <div className="match__stats">
         <span>
