@@ -32,35 +32,60 @@ function modeFromHash(hash = currentHash()) {
 }
 
 function viewFromHash(hash = currentHash()) {
+  if (hash.startsWith('#slovar-')) return 'slovar';
   if (MODE_BY_HASH[hash]) return 'rasyba';
   const id = hash.replace('#', '');
   return VIEW_IDS.includes(id) ? id : 'tekstai';
 }
 
+function bookFromHash(hash = currentHash()) {
+  const match = /^#slovar-(.+)$/.exec(hash);
+  return match ? match[1] : null;
+}
+
+function applyHash(hash) {
+  if (currentHash() !== hash) window.history.pushState(null, '', hash);
+}
+
 function App() {
   const [view, setView] = useState(() => viewFromHash());
   const [mode, setMode] = useState(() => modeFromHash());
+  const [bookId, setBookId] = useState(() => bookFromHash());
   const [theme, toggleTheme] = useTheme();
 
   useEffect(() => {
     const onHashChange = () => {
       setMode(modeFromHash());
+      setBookId(bookFromHash());
       setView(viewFromHash());
     };
     window.addEventListener('hashchange', onHashChange);
     return () => window.removeEventListener('hashchange', onHashChange);
   }, []);
 
-  const applyHash = (hash) => {
-    if (currentHash() !== hash) window.history.pushState(null, '', hash);
-  };
-
   const navigate = (v) => {
     setView(v);
     if (v === 'rasyba') setMode('spelling');
+    if (v === 'slovar') setBookId(null);
     applyHash(v === 'rasyba' ? HASH_BY_MODE.spelling : `#${v}`);
     window.scrollTo({ top: 0 });
   };
+
+  const openBook = useCallback(
+    (id) => {
+      setBookId(id);
+      setView('slovar');
+      applyHash(`#slovar-${id}`);
+      window.scrollTo({ top: 0 });
+    },
+    [],
+  );
+
+  const closeBook = useCallback(() => {
+    setBookId(null);
+    applyHash('#slovar');
+    window.scrollTo({ top: 0 });
+  }, []);
 
   const selectMode = useCallback((next) => {
     setMode(next);
@@ -97,7 +122,7 @@ function App() {
           <PictureTopics />
         ) : view === 'slovar' ? (
           <Suspense fallback={<p className="topics__sub">Kraunama…</p>}>
-            <Dictionary />
+            <Dictionary bookId={bookId} onOpenBook={openBook} onBack={closeBook} />
           </Suspense>
         ) : view === 'zodziai' ? (
           <MatchGame />
