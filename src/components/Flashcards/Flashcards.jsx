@@ -29,7 +29,7 @@ function poolFor(cat, starredSet, pool) {
 
 function freshQueue(pool, limit = ROUND) {
   const picked = limit ? shuffled(pool).slice(0, Math.min(limit, pool.length)) : shuffled(pool);
-  return picked.map((w) => ({ ...w, key: wordKey(w) }));
+  return picked.map((w) => ({ ...w, key: w.key ?? wordKey(w) }));
 }
 
 const POOL = 'pool';

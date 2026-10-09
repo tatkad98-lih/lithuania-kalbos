@@ -1,12 +1,18 @@
 import { useMemo, useState } from 'react';
 import { ChevronLeft, Heart, Layers, List, Pencil, Puzzle } from 'lucide-react';
 import { knyga3 } from '../../data/knyga3/index.js';
+import { knyga4 } from '../../data/knyga4/index.js';
 import { wordKey } from '../../hooks/useStarred.js';
 import { useKnown } from '../../hooks/useKnown.js';
 import { Flashcards } from '../Flashcards';
 import { MatchGame } from '../MatchGame';
 import { ThemeWrite } from './ThemeWrite.jsx';
 import './thematic.scss';
+
+const BOOKS = {
+  'knyga-3': knyga3,
+  'knyga-4': knyga4,
+};
 
 const MODES = [
   { id: 'list', label: 'Sąrašas · Список', icon: List },
@@ -17,6 +23,11 @@ const MODES = [
 
 function percent(stats) {
   return stats.total ? Math.round((stats.known / stats.total) * 100) : 0;
+}
+
+function themeName(theme) {
+  if (!theme.title) return `Буква ${theme.letter.toUpperCase()}`;
+  return theme.nr ? `${theme.nr}. ${theme.title}` : theme.title;
 }
 
 function Progress({ stats }) {
@@ -32,6 +43,8 @@ function Progress({ stats }) {
 }
 
 export function BookThematic({ book }) {
+  const data = BOOKS[book.id] ?? knyga3;
+  const flatBook = data.parts.every((part) => part.themes.length === 1 && part.themes[0].id === part.id);
   const [partId, setPartId] = useState(null);
   const [themeId, setThemeId] = useState(null);
   const [mode, setMode] = useState('list');
@@ -39,7 +52,7 @@ export function BookThematic({ book }) {
 
   const statsByTheme = useMemo(() => {
     const map = new Map();
-    for (const part of knyga3.parts) {
+    for (const part of data.parts) {
       for (const theme of part.themes) {
         let known = 0;
         for (const word of theme.words) {
@@ -49,11 +62,11 @@ export function BookThematic({ book }) {
       }
     }
     return map;
-  }, [knownSet]);
+  }, [data, knownSet]);
 
   const statsByPart = useMemo(() => {
     const map = new Map();
-    for (const part of knyga3.parts) {
+    for (const part of data.parts) {
       const sum = part.themes.reduce(
         (acc, theme) => {
           const stats = statsByTheme.get(theme.id);
@@ -64,10 +77,12 @@ export function BookThematic({ book }) {
       map.set(part.id, sum);
     }
     return map;
-  }, [statsByTheme]);
+  }, [data.parts, statsByTheme]);
 
-  const part = partId ? knyga3.parts.find((item) => item.id === partId) : null;
-  const theme = part?.themes.find((item) => item.id === themeId) ?? null;
+  const part = partId ? data.parts.find((item) => item.id === partId) : null;
+  // a part that holds a single unnamed list of words opens straight to it
+  const flat = part && part.themes.length === 1 && part.themes[0].id === part.id ? part.themes[0] : null;
+  const theme = flat ?? part?.themes.find((item) => item.id === themeId) ?? null;
 
   const rows = [];
   for (const word of theme?.words ?? []) {
@@ -95,13 +110,11 @@ export function BookThematic({ book }) {
           }}
         >
           <ChevronLeft size={16} />
-          {part.title}
+          {flat ? 'Dalys · Части' : part.title}
         </button>
 
         <div className="thm__head">
-          <h3 className="thm__title">
-            {theme.nr}. {theme.title}
-          </h3>
+          <h3 className="thm__title">{themeName(theme)}</h3>
           <p className="thm__meta">
             {themeStats.known} iš {themeStats.total} žodžių · {percent(themeStats)}% ·{' '}
             <Heart size={13} fill="currentColor" /> значит «знаю хорошо»
@@ -129,8 +142,8 @@ export function BookThematic({ book }) {
         {mode === 'cards' && (
           <Flashcards
             key={`cards-${theme.id}`}
-            pool={theme.words}
-            title={`${theme.nr}. ${theme.title}`}
+            pool={rows.map((row) => ({ ...row, lt: row.f ? `${row.lt}, ${row.f}` : row.lt }))}
+            title={themeName(theme)}
             mark="heart"
             embedded
           />
@@ -139,8 +152,8 @@ export function BookThematic({ book }) {
         {mode === 'pairs' && (
           <MatchGame
             key={`pairs-${theme.id}`}
-            pool={theme.words}
-            title={`${theme.nr}. ${theme.title}`}
+            pool={rows}
+            title={themeName(theme)}
             embedded
           />
         )}
@@ -156,7 +169,10 @@ export function BookThematic({ book }) {
               return (
                 <li key={row.key} className={`thm__word ${known ? 'thm__word--known' : ''}`}>
                   <span className="thm__ru">{row.ru}</span>
-                  <span className="thm__lt">{row.lt}</span>
+                  <span className="thm__lt">
+                    {row.lt}
+                    {row.f && <em className="thm__forms">{row.f}</em>}
+                  </span>
                   <button
                     type="button"
                     className={`thm__heart ${known ? 'thm__heart--on' : ''}`}
@@ -187,29 +203,30 @@ export function BookThematic({ book }) {
         <div className="thm__head">
           <h3 className="thm__title">{part.title}</h3>
           <p className="thm__meta">
-            {part.themes.length} temų ·{' '}
-            {part.themes.reduce((sum, item) => sum + item.words.length, 0)} žodžių
+            {flat
+              ? `${flat.words.length} žodžių`
+              : `${part.themes.length} temų · ${part.themes.reduce((sum, item) => sum + item.words.length, 0)} žodžių`}
           </p>
         </div>
 
-        <div className="thm__themes">
-          {part.themes.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              className="thm__theme"
-              onClick={() => openTheme(part, item)}
-            >
-              <span className="thm__theme-name">
-                {item.nr}. {item.title}
-              </span>
-              <span className="thm__theme-meta">
-                {item.words.length} žodžių · {percent(statsByTheme.get(item.id))}%
-              </span>
-              <Progress stats={statsByTheme.get(item.id)} />
-            </button>
-          ))}
-        </div>
+        {flat ? null : (
+          <div className="thm__themes">
+            {part.themes.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                className="thm__theme"
+                onClick={() => openTheme(part, item)}
+              >
+                <span className="thm__theme-name">{themeName(item)}</span>
+                <span className="thm__theme-meta">
+                  {item.words.length} žodžių · {percent(statsByTheme.get(item.id))}%
+                </span>
+                <Progress stats={statsByTheme.get(item.id)} />
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     );
   }
@@ -219,17 +236,21 @@ export function BookThematic({ book }) {
       <div className="thm__head">
         <h3 className="thm__title">{book.titleLt}</h3>
         <p className="thm__meta">
-          {knyga3.parts.length} dalys · 256 temų ·{' '}
-          {knyga3.parts.reduce(
-            (sum, item) => sum + item.themes.reduce((s, theme) => s + theme.words.length, 0),
-            0,
-          )}{' '}
-          žodžių
+          {[
+            `${data.parts.length} dalys`,
+            flatBook ? null : `${data.parts.reduce((sum, part) => sum + part.themes.length, 0)} temų`,
+            `${data.parts.reduce(
+              (sum, item) => sum + item.themes.reduce((s, theme) => s + theme.words.length, 0),
+              0,
+            )} žodžių`,
+          ]
+            .filter(Boolean)
+            .join(' · ')}
         </p>
       </div>
 
       <div className="thm__parts">
-        {knyga3.parts.map((item) => (
+        {data.parts.map((item) => (
           <button
             key={item.id}
             type="button"

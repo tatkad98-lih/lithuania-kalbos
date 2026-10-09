@@ -105,6 +105,10 @@
     background: linear-gradient(160deg, #4a7d55 0%, #35603e 55%, #27472e 100%);
   }
 
+  &__book--violet &__cover {
+    background: linear-gradient(160deg, #6b5b95 0%, #4c3f6e 55%, #382d52 100%);
+  }
+
   &__cover-spine {
     position: absolute;
     top: 0;
@@ -243,6 +247,10 @@
 
   &__book--green &__open-cover {
     background: linear-gradient(160deg, #4a7d55, #27472e);
+  }
+
+  &__book--violet &__open-cover {
+    background: linear-gradient(160deg, #6b5b95, #382d52);
   }
 
   &__open-titles {

@@ -42,6 +42,22 @@ export const books = [
     themeCount: 256,
     wordCount: 8853,
   },
+  {
+    // Verb list. The word data itself lives in knyga4/ and is only pulled in
+    // when this book is opened.
+    id: 'knyga-4',
+    nr: 4,
+    titleRu: 'Глаголы',
+    titleLt: '365 глаголов литовского языка',
+    subtitleLt: '6 форм каждого глагола',
+    year: '',
+    wordUnit: 'частей',
+    tone: 'violet',
+    kind: 'thematic',
+    partCount: 19,
+    themeCount: 19,
+    wordCount: 365,
+  },
 ];
 
 export const countWords = (book) =>

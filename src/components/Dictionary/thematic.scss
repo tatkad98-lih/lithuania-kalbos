@@ -203,6 +203,16 @@
   }
 }
 
+.thm__forms {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  color: $text-muted;
+  opacity: 0.85;
+}
+
 .thm__heart {
   display: inline-grid;
   place-items: center;

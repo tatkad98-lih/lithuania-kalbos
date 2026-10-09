@@ -80,7 +80,7 @@ function Shelf({ items, starredPerBook, sectionByBook, onOpenBook }) {
                 <span className="dict__cover-title">{book.titleLt}</span>
                 <span className="dict__cover-subtitle">{book.subtitleLt}</span>
                 <span className="dict__cover-rule" />
-                <span className="dict__cover-year">{book.year}</span>
+                {book.year && <span className="dict__cover-year">{book.year}</span>}
               </span>
 
               <span className="dict__book-caption">
@@ -213,7 +213,9 @@ export function Dictionary({ bookId = null, onOpenBook, onBack }) {
             </span>
           </h2>
           <p className="dict__sub">
-            {book.year} · {countSections(book)} {book.wordUnit} · {countWords(book)} слов
+            {[book.year, `${countSections(book)} ${book.wordUnit}`, `${countWords(book)} слов`]
+              .filter(Boolean)
+              .join(' · ')}
           </p>
         </div>
       </div>
